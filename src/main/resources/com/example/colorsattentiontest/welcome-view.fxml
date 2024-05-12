@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.colorsattentiontest.WelcomeController">
+
+    <MenuBar>
+        <menus>
+            <Menu fx:id="aboutMenuItem" text="Автор">
+                <items>
+                    <MenuItem text="Інформація" />
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+
+    <StackPane>
+    <Label alignment="CENTER" style="-fx-font-size: 20px;" text="Вітаємо!">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <StackPane.margin>
+            <Insets bottom="200.0" />
+         </StackPane.margin></Label>
+    <Label alignment="CENTER" style="-fx-font-size: 20px;" text="Це тест на дослідження оперативної пам’яті.">
+         <StackPane.margin>
+            <Insets bottom="100.0" />
+         </StackPane.margin></Label>
+
+    <Button alignment="CENTER" onAction="#startTest" style="-fx-font-size: 20px;" text="Почати тест">
+         <StackPane.margin>
+            <Insets top="50.0" />
+         </StackPane.margin></Button>
+      <VBox.margin>
+         <Insets top="150.0" />
+      </VBox.margin>
+    </StackPane>
+
+</VBox>
