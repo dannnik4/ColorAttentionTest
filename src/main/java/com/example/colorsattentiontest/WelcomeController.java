@@ -12,13 +12,17 @@ import java.io.IOException;
 
 public class WelcomeController {
     @FXML
-    protected void startTest() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("color-test.fxml"));
-        Parent root = fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Тест на дослідження оперативної пам’яті");
-        stage.show();
+    public void startTest() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

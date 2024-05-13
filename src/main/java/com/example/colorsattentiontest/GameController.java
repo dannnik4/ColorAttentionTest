@@ -19,7 +19,10 @@ public class GameController {
     private Rectangle blueIcon;
 
     public void initialize() {
-        // Инициализация игры
+        initializeGame();
+    }
+
+    private void initializeGame() {
     }
 
     @FXML
@@ -27,16 +30,20 @@ public class GameController {
         Rectangle clickedRectangle = (Rectangle) event.getSource();
         Color selectedColor = (Color) clickedRectangle.getFill();
 
-        if (selectedColor == sequence[currentIndex]) {
+        if (selectedColor.equals(sequence[currentIndex])) {
             currentIndex++;
 
             if (currentIndex == sequence.length) {
                 // Пользователь выбрал все цвета правильно
                 // Показать результат
+                System.out.println("Вы выбрали все цвета правильно!");
+                currentIndex = 0; // Сбросить индекс для новой игры
             }
         } else {
             // Пользователь сделал ошибку
             // Показать результат
+            System.out.println("Ошибка! Вы выбрали неправильный цвет.");
+            currentIndex = 0; // Сбросить индекс для новой игры
         }
     }
 }
