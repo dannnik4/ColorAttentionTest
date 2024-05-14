@@ -12,24 +12,23 @@ import java.io.IOException;
 
 public class WelcomeController {
     @FXML
-    public void startTest() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-view.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     private MenuItem aboutMenuItem;
 
     public void initialize() {
-        aboutMenuItem.setOnAction(event -> handleAboutMenuAction());
+        aboutMenuItem.setOnAction(event -> startTest());
+    }
+
+    @FXML
+    private void startTest() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) aboutMenuItem.getParentPopup().getOwnerWindow(); // Получаем текущее окно (Stage)
+            stage.setScene(scene); // Устанавливаем новую сцену в текущее окно
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

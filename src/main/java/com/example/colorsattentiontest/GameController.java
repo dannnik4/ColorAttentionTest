@@ -34,16 +34,12 @@ public class GameController {
             currentIndex++;
 
             if (currentIndex == sequence.length) {
-                // Пользователь выбрал все цвета правильно
-                // Показать результат
                 System.out.println("Вы выбрали все цвета правильно!");
-                currentIndex = 0; // Сбросить индекс для новой игры
+                currentIndex = 0;
             }
         } else {
-            // Пользователь сделал ошибку
-            // Показать результат
             System.out.println("Ошибка! Вы выбрали неправильный цвет.");
-            currentIndex = 0; // Сбросить индекс для новой игры
+            currentIndex = 0;
         }
     }
 }
