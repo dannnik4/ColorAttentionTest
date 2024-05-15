@@ -14,7 +14,7 @@ import javafx.util.Duration;
 public class ColorController {
 
     @FXML
-    private Rectangle[] rectangles; // Массив прямоугольников
+    private Rectangle[] rectangles;
 
     private final List<Color> colors = Arrays.asList(
             Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE, Color.GREEN
@@ -24,15 +24,15 @@ public class ColorController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             changeRectangleColor();
         }));
-        timeline.setCycleCount(Timeline.INDEFINITE); // Циклическое выполнение таймлайна
+        timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
     private void changeRectangleColor() {
         Random random = new Random();
-        for (Rectangle rectangle : rectangles) { // Итерация по всем прямоугольникам
-            Color newColor = colors.get(random.nextInt(colors.size())); // Случайный выбор цвета из списка
-            rectangle.setFill(newColor); // Установка нового цвета прямоугольнику
+        for (Rectangle rectangle : rectangles) {
+            Color newColor = colors.get(random.nextInt(colors.size()));
+            rectangle.setFill(newColor);
         }
     }
 }

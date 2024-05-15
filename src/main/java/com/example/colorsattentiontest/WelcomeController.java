@@ -24,8 +24,8 @@ public class WelcomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            Stage stage = (Stage) aboutMenuItem.getParentPopup().getOwnerWindow(); // Получаем текущее окно (Stage)
-            stage.setScene(scene); // Устанавливаем новую сцену в текущее окно
+            Stage stage = (Stage) aboutMenuItem.getParentPopup().getOwnerWindow();
+            stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
