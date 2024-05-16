@@ -15,12 +15,10 @@ public class ResultController {
     private TableColumn<Result, String> resultColumn;
 
     public void initialize() {
-        // Инициализация таблицы
     }
 
     @FXML
     private void startNewAttempt() {
-        // Логика для начала новой попытки
     }
 
     @FXML
