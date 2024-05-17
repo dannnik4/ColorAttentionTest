@@ -12,7 +12,6 @@ public class Result {
         this.correctColors = new SimpleIntegerProperty(correctColors);
     }
 
-    // Геттеры для attempt и correctColors
     public int getAttempt() {
         return attempt.get();
     }
@@ -21,7 +20,6 @@ public class Result {
         return correctColors.get();
     }
 
-    // Свойства для attempt и correctColors
     public IntegerProperty attemptProperty() {
         return attempt;
     }
