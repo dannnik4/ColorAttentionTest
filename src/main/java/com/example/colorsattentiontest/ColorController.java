@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.util.Duration;
