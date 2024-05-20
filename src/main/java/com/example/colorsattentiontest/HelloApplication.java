@@ -10,8 +10,8 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcome-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("welcome-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Тест на дослідження оперативної пам’яті");
         stage.setScene(scene);
         stage.show();
