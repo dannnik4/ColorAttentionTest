@@ -47,18 +47,18 @@ public class ColorController {
         return colors.get(random.nextInt(colors.size()));
     }
 
-//    private void showResultScreen() {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("result-view.fxml"));
-//            Parent root = loader.load();
-//            ResultController controller = loader.getController();
-//            controller.setCorrectOrder(shownColors);
-//            Scene scene = new Scene(root);
-//            Stage stage = (Stage) rectangle.getScene().getWindow();
-//            stage.setScene(scene);
-//            stage.show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void showResultScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("result-view.fxml"));
+            Parent root = loader.load();
+            ResultController controller = loader.getController();
+            controller.setCorrectOrder(shownColors);
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) rectangle.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
