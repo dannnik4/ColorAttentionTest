@@ -4,59 +4,71 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class ColorController {
 
     @FXML
+    private StackPane stackPane;
+
+    @FXML
     private Rectangle rectangle;
 
-    private final List<Color> colors = List.of(Color.YELLOW, Color.GREEN, Color.RED, Color.BLUE, Color.WHITE, Color.BLACK);
-    private final List<Color> shownColors = new ArrayList<>();
-    private int currentIndex = 0;
+    private final List<Color> colors = List.of(
+            Color.YELLOW, Color.GREEN, Color.RED, Color.BLUE, Color.WHITE, Color.BLACK
+    );
 
+    private final List<Color> displayedColors = new ArrayList<>();
+
+    @FXML
     public void initialize() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> showNextColor()));
-        timeline.setCycleCount(10);
-        timeline.play();
-    }
+        List<Color> randomColors = new ArrayList<>(colors);
+        Collections.shuffle(randomColors);
 
-    private void showNextColor() {
-        if (currentIndex < 10) {
-            Color color = getRandomColor();
-            shownColors.add(color);
-            rectangle.setFill(color);
-            currentIndex++;
-        } else {
-            showResultScreen();
+        Timeline timeline = new Timeline();
+        for (int i = 0; i < 10; i++) {
+            Color color = randomColors.get(i % colors.size());
+            displayedColors.add(color);
+            int colorIndex = i + 1;
+
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(i + 1), event -> {
+                rectangle.setFill(color);
+                Text colorIndexText = new Text(String.valueOf(colorIndex));
+                colorIndexText.setFill(color.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
+                colorIndexText.setStyle("-fx-font-size: 24px;");
+                StackPane.setAlignment(colorIndexText, javafx.geometry.Pos.TOP_LEFT);
+                stackPane.getChildren().clear();
+                stackPane.getChildren().addAll(rectangle, colorIndexText);
+            });
+
+            timeline.getKeyFrames().add(keyFrame);
         }
-    }
 
-    private Color getRandomColor() {
-        Random random = new Random();
-        return colors.get(random.nextInt(colors.size()));
+        timeline.setOnFinished(event -> showResultScreen());
+        timeline.play();
     }
 
     private void showResultScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("result-view.fxml"));
-            Parent root = loader.load();
-            ResultController controller = loader.getController();
-            controller.setCorrectOrder(shownColors);
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) rectangle.getScene().getWindow();
+            Scene scene = new Scene(loader.load());
+
+            ResultController resultController = loader.getController();
+            resultController.setCorrectOrder(displayedColors);
+
+            Stage stage = (Stage) stackPane.getScene().getWindow();
             stage.setScene(scene);
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
