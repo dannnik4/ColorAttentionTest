@@ -24,22 +24,4 @@ public class GameController {
 
     private void initializeGame() {
     }
-
-    @FXML
-    private void onColorClicked(ActionEvent event) {
-        Rectangle clickedRectangle = (Rectangle) event.getSource();
-        Color selectedColor = (Color) clickedRectangle.getFill();
-
-        if (selectedColor.equals(sequence[currentIndex])) {
-            currentIndex++;
-
-            if (currentIndex == sequence.length) {
-                System.out.println("Ви правильно обрали всі кольори!");
-                currentIndex = 0;
-            }
-        } else {
-            System.out.println("Помилка! Ви вибрали неправильний колір.");
-            currentIndex = 0;
-        }
-    }
 }
