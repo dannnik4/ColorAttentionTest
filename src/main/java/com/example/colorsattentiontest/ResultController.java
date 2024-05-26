@@ -41,6 +41,12 @@ public class ResultController {
             StackPane stack = new StackPane();
             stack.getChildren().add(rectangle);
             colorGrid.add(stack, col, row);
+
+            rectangle.setOnMouseClicked(event -> {
+                Color fill = (Color) rectangle.getFill();
+                selectedOrder.add(fill);
+                updateSelectionTable();
+            });
         }
     }
 

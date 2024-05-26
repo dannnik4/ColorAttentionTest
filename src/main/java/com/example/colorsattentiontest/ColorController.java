@@ -33,9 +33,30 @@ public class ColorController {
 
     @FXML
     public void initialize() {
+        // Initialize method can be left empty if not used
+    }
+
+    public void startTest() {
         List<Color> randomColors = new ArrayList<>(colors);
         Collections.shuffle(randomColors);
 
+        Timeline countdown = new Timeline(
+                new KeyFrame(Duration.seconds(1), event -> showCountdown(3)),
+                new KeyFrame(Duration.seconds(2), event -> showCountdown(2)),
+                new KeyFrame(Duration.seconds(3), event -> showCountdown(1)),
+                new KeyFrame(Duration.seconds(4), event -> startColorSequence(randomColors))
+        );
+        countdown.play();
+    }
+
+    private void showCountdown(int number) {
+        stackPane.getChildren().clear();
+        Text countdownText = new Text(String.valueOf(number));
+        countdownText.setStyle("-fx-font-size: 72px;");
+        stackPane.getChildren().add(countdownText);
+    }
+
+    private void startColorSequence(List<Color> randomColors) {
         Timeline timeline = new Timeline();
         for (int i = 0; i < 10; i++) {
             Color color = randomColors.get(i % colors.size());
@@ -45,7 +66,7 @@ public class ColorController {
             KeyFrame keyFrame = new KeyFrame(Duration.seconds(i + 1), event -> {
                 rectangle.setFill(color);
                 Text colorIndexText = new Text(String.valueOf(colorIndex));
-                colorIndexText.setFill(color.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
+                colorIndexText.setFill((color.equals(Color.BLACK) || color.equals(Color.BLUE)) ? Color.WHITE : Color.BLACK);
                 colorIndexText.setStyle("-fx-font-size: 24px;");
                 StackPane.setAlignment(colorIndexText, javafx.geometry.Pos.TOP_LEFT);
                 stackPane.getChildren().clear();
