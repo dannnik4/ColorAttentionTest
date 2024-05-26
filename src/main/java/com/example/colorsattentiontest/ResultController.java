@@ -150,6 +150,7 @@ public class ResultController {
         indexColumn.setCellValueFactory(new PropertyValueFactory<>("index"));
         selectedColorColumn.setCellValueFactory(new PropertyValueFactory<>("selectedColor"));
         correctColorColumn.setCellValueFactory(new PropertyValueFactory<>("correctColor"));
+
         attemptNumberColumn.setCellValueFactory(new PropertyValueFactory<>("attemptNumber"));
         correctCountColumn.setCellValueFactory(new PropertyValueFactory<>("correctCount"));
     }
