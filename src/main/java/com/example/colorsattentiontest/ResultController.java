@@ -44,7 +44,7 @@ public class ResultController {
 
     private void initializeColorGrid() {
         colorGrid.getChildren().clear(); // Clear any existing children
-        for (int i = 0; i < correctOrder.size(); i++) {
+        for (int i = 0; i < 6; i++) { // Only display 6 colors
             Rectangle rectangle = new Rectangle(50, 50, correctOrder.get(i));
             int row = i / 3;
             int col = i % 3;
@@ -67,6 +67,9 @@ public class ResultController {
             String correct = (i < correctOrder.size()) ? colorToString(correctOrder.get(i)) : "";
             selectionTable.getItems().add(new ColorResult(String.valueOf(i + 1), selected, correct));
         }
+        if (selectionTable.getItems().size() > 10) {
+            selectionTable.getItems().remove(10, selectionTable.getItems().size());
+        }
     }
 
     @FXML
@@ -78,10 +81,15 @@ public class ResultController {
                 correctCount++;
             }
         }
-        attempts.add(new AttemptResult(String.valueOf(attemptNumber), String.valueOf(correctCount)));
-        attemptNumber++;
-        attemptTable.getItems().setAll(attempts);
-        selectedOrder.clear();  // Clear the selectedOrder for a new attempt
+        if (selectionTable.getItems().size() == 10) {
+            attempts.add(new AttemptResult(String.valueOf(attemptNumber), String.valueOf(correctCount)));
+            attemptNumber++;
+            attemptTable.getItems().setAll(attempts);
+            if (attemptTable.getItems().size() > 5) {
+                attemptTable.getItems().remove(5, attemptTable.getItems().size());
+            }
+            selectedOrder.clear();  // Clear the selectedOrder for a new attempt
+        }
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Правильні відповіді: " + correctCount);
         alert.show();
     }

@@ -90,7 +90,7 @@ public class ColorController {
     private void showResultScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("result-view.fxml"));
-            Scene scene = new Scene(loader.load());
+            Scene scene = new Scene(loader.load(), 600, 600);
 
             ResultController resultController = loader.getController();
             resultController.setCorrectOrder(displayedColors);
