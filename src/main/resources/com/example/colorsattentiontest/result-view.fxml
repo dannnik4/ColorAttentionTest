@@ -5,7 +5,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx"
@@ -31,6 +30,6 @@
 
     <HBox spacing="10">
         <Button fx:id="finishButton" text="Нова спроба" onAction="#finishAttempt"/>
-        <Button fx:id="resetButton" text="Обнулити таблицю" onAction="#resetAttempts"/>
+        <Button fx:id="resetButton" text="Скинути таблицю" onAction="#resetAttempts"/>
     </HBox>
 </VBox>

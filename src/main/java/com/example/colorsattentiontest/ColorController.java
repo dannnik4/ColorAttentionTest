@@ -33,7 +33,11 @@ public class ColorController {
 
     @FXML
     public void initialize() {
-        // Initialize method can be left empty if not used
+        // Initialize rectangle with a default background color and text
+        rectangle.setFill(Color.WHITE);
+        Text welcomeText = new Text("Натисніть 'Почати тест' для початку");
+        welcomeText.setStyle("-fx-font-size: 24px;");
+        stackPane.getChildren().add(welcomeText);
     }
 
     public void startTest() {
@@ -51,9 +55,10 @@ public class ColorController {
 
     private void showCountdown(int number) {
         stackPane.getChildren().clear();
+        rectangle.setFill(Color.WHITE);
         Text countdownText = new Text(String.valueOf(number));
         countdownText.setStyle("-fx-font-size: 72px;");
-        stackPane.getChildren().add(countdownText);
+        stackPane.getChildren().addAll(rectangle, countdownText);
     }
 
     private void startColorSequence(List<Color> randomColors) {
@@ -68,7 +73,6 @@ public class ColorController {
                 Text colorIndexText = new Text(String.valueOf(colorIndex));
                 colorIndexText.setFill((color.equals(Color.BLACK) || color.equals(Color.BLUE) || color.equals(Color.RED)) ? Color.WHITE : Color.BLACK);
                 colorIndexText.setStyle("-fx-font-size: 24px;");
-                StackPane.setAlignment(colorIndexText, javafx.geometry.Pos.TOP_LEFT);
                 stackPane.getChildren().clear();
                 stackPane.getChildren().addAll(rectangle, colorIndexText);
             });

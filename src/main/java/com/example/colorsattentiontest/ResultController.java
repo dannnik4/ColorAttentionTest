@@ -44,10 +44,10 @@ public class ResultController {
 
     private void initializeColorGrid() {
         colorGrid.getChildren().clear(); // Clear any existing children
-        for (int i = 0; i < 10; i++) {
-            Rectangle rectangle = new Rectangle(50, 50, correctOrder.get(i % correctOrder.size()));
-            int row = i / 5;
-            int col = i % 5;
+        for (int i = 0; i < correctOrder.size(); i++) {
+            Rectangle rectangle = new Rectangle(50, 50, correctOrder.get(i));
+            int row = i / 3;
+            int col = i % 3;
             StackPane stack = new StackPane();
             stack.getChildren().add(rectangle);
             colorGrid.add(stack, col, row);
@@ -81,6 +81,7 @@ public class ResultController {
         attempts.add(new AttemptResult(String.valueOf(attemptNumber), String.valueOf(correctCount)));
         attemptNumber++;
         attemptTable.getItems().setAll(attempts);
+        selectedOrder.clear();  // Clear the selectedOrder for a new attempt
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Правильні відповіді: " + correctCount);
         alert.show();
     }
