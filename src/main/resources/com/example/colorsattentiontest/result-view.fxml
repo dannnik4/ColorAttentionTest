@@ -4,6 +4,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -15,10 +16,21 @@
 
     <TableView fx:id="selectionTable">
         <columns>
+            <TableColumn fx:id="indexColumn" text="№"/>
             <TableColumn fx:id="selectedColorColumn" text="Обраний колір"/>
             <TableColumn fx:id="correctColorColumn" text="Правильний колір"/>
         </columns>
     </TableView>
 
-    <Button fx:id="finishButton" text="Завершити спробу" onAction="#finishAttempt"/>
+    <TableView fx:id="attemptTable">
+        <columns>
+            <TableColumn fx:id="attemptNumberColumn" text="№ Спроби"/>
+            <TableColumn fx:id="correctCountColumn" text="Правильні кольори"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10">
+        <Button fx:id="finishButton" text="Нова спроба" onAction="#finishAttempt"/>
+        <Button fx:id="resetButton" text="Обнулити таблицю" onAction="#resetAttempts"/>
+    </HBox>
 </VBox>
