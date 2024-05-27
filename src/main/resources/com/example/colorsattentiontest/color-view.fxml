@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Rectangle?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.colorsattentiontest.ColorController" fx:id="stackPane" prefWidth="400" prefHeight="400">
-    <Rectangle fx:id="rectangle" width="400" height="400" />
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.example.colorsattentiontest.ColorController"
+           prefWidth="400" prefHeight="400">
+
+    <Rectangle fx:id="rectangle" width="400" height="400" fill="WHITE"/>
 </StackPane>

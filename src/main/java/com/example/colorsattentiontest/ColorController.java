@@ -94,4 +94,19 @@ public class ColorController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void showResults() {
+        startTest();
+    }
+
+    @FXML
+    private void finishAttempt() {
+        startTest();
+    }
+
+    @FXML
+    private void resetAttempts() {
+        // Implement reset logic here if needed
+    }
 }
