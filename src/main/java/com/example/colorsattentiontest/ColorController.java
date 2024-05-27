@@ -5,7 +5,6 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -26,9 +25,6 @@ public class ColorController {
     @FXML
     private Rectangle rectangle;
 
-    @FXML
-    private Button startButton;
-
     private final List<Color> colors = List.of(
             Color.YELLOW, Color.GREEN, Color.RED, Color.BLUE, Color.WHITE, Color.BLACK
     );
@@ -38,12 +34,9 @@ public class ColorController {
     @FXML
     public void initialize() {
         rectangle.setFill(Color.WHITE);
-        startButton.setText("Почати тест");
-        startButton.setOnAction(event -> startTest());
     }
 
     public void startTest() {
-        startButton.setVisible(false);  // Hide the button after starting the test
         List<Color> randomColors = new ArrayList<>(colors);
         Collections.shuffle(randomColors);
 

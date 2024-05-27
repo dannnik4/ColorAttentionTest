@@ -12,9 +12,9 @@
       fx:controller="com.example.colorsattentiontest.ResultController"
       prefWidth="600">
 
-    <GridPane fx:id="colorGrid" hgap="10" vgap="10" />
+    <GridPane fx:id="colorGrid" hgap="10" vgap="10"/>
 
-    <TableView fx:id="selectionTable">
+    <TableView fx:id="selectionTable" prefHeight="350">
         <columns>
             <TableColumn fx:id="indexColumn" text="№"/>
             <TableColumn fx:id="selectedColorColumn" text="Обраний колір"/>
@@ -22,7 +22,7 @@
         </columns>
     </TableView>
 
-    <TableView fx:id="attemptTable">
+    <TableView fx:id="attemptTable" prefHeight="100">
         <columns>
             <TableColumn fx:id="attemptNumberColumn" text="№ Спроби"/>
             <TableColumn fx:id="correctCountColumn" text="Правильні кольори"/>
@@ -30,6 +30,7 @@
     </TableView>
 
     <HBox spacing="10">
+        <Button fx:id="showResultsButton" text="Показати результати спроби" onAction="#showResults"/>
         <Button fx:id="finishButton" text="Нова спроба" onAction="#finishAttempt"/>
         <Button fx:id="resetButton" text="Скинути таблицю" onAction="#resetAttempts"/>
     </HBox>

@@ -1,7 +1,10 @@
 package com.example.colorsattentiontest;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -9,7 +12,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +36,12 @@ public class ResultController {
     private TableColumn<AttemptResult, String> attemptNumberColumn;
     @FXML
     private TableColumn<AttemptResult, String> correctCountColumn;
+    @FXML
+    private Button showResultsButton;
+    @FXML
+    private Button finishButton;
+    @FXML
+    private Button resetButton;
 
     private final List<Color> correctOrder = new ArrayList<>();
     private final List<Color> selectedOrder = new ArrayList<>();
@@ -95,10 +106,30 @@ public class ResultController {
     }
 
     @FXML
+    private void showResults() {
+        startNewAttempt();
+    }
+
+    @FXML
     private void resetAttempts() {
         attempts.clear();
         attemptNumber = 1;
         attemptTable.getItems().clear();
+    }
+
+    private void startNewAttempt() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
+            Scene scene = new Scene(loader.load(), 400, 400);
+
+            ColorController colorController = loader.getController();
+            colorController.startTest();
+
+            Stage stage = (Stage) colorGrid.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String colorToString(Color color) {
@@ -158,8 +189,11 @@ public class ResultController {
         indexColumn.setCellValueFactory(new PropertyValueFactory<>("index"));
         selectedColorColumn.setCellValueFactory(new PropertyValueFactory<>("selectedColor"));
         correctColorColumn.setCellValueFactory(new PropertyValueFactory<>("correctColor"));
-
         attemptNumberColumn.setCellValueFactory(new PropertyValueFactory<>("attemptNumber"));
         correctCountColumn.setCellValueFactory(new PropertyValueFactory<>("correctCount"));
+
+        finishButton.setText("Нова спроба");
+        resetButton.setText("Скинути таблицю");
+        showResultsButton.setText("Показати результати спроби");
     }
 }
