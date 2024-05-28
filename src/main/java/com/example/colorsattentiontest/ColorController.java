@@ -33,7 +33,11 @@ public class ColorController {
 
     @FXML
     public void initialize() {
-        rectangle.setFill(Color.WHITE);
+        if (stackPane == null || rectangle == null) {
+            System.out.println("FXML elements are not initialized");
+        } else {
+            rectangle.setFill(Color.WHITE);
+        }
     }
 
     public void startTest() {

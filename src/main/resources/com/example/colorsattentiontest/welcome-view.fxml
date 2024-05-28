@@ -31,7 +31,7 @@
             </StackPane.margin>
         </Label>
 
-        <Button alignment="CENTER" onAction="#startTest" style="-fx-font-size: 20px;" text="Почати тест">
+        <Button alignment="CENTER" fx:id="startButton" onAction="#startTest" style="-fx-font-size: 20px;" text="Почати тест">
             <StackPane.margin>
                 <Insets top="50.0" />
             </StackPane.margin>
