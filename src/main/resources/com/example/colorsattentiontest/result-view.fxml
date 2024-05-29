@@ -11,19 +11,15 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.colorsattentiontest.ResultController"
       spacing="10" padding="10">
-
     <HBox fx:id="colorBox" spacing="10">
     </HBox>
-
     <Label fx:id="statusLabel" text="Status message" />
-
     <TableView fx:id="resultTable">
         <columns>
             <TableColumn fx:id="attemptColumn" text="Attempt"/>
             <TableColumn fx:id="colorsColumn" text="Colors"/>
         </columns>
     </TableView>
-
     <TableView fx:id="summaryTable">
         <columns>
             <TableColumn fx:id="summaryAttemptColumn" text="Attempt"/>
