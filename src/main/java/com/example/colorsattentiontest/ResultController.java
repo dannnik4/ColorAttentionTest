@@ -1,199 +1,119 @@
 package com.example.colorsattentiontest;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResultController {
 
     @FXML
-    private GridPane colorGrid;
-    @FXML
-    private TableView<ColorResult> selectionTable;
-    @FXML
-    private TableColumn<ColorResult, String> selectedColorColumn;
-    @FXML
-    private TableColumn<ColorResult, String> correctColorColumn;
-    @FXML
-    private TableColumn<ColorResult, String> indexColumn;
-    @FXML
-    private TableView<AttemptResult> attemptTable;
-    @FXML
-    private TableColumn<AttemptResult, String> attemptNumberColumn;
-    @FXML
-    private TableColumn<AttemptResult, String> correctCountColumn;
-    @FXML
-    private Button showResultsButton;
-    @FXML
-    private Button finishButton;
-    @FXML
-    private Button resetButton;
+    private TableView<Result> resultTable;
 
-    private final List<Color> correctOrder = new ArrayList<>();
-    private final List<Color> selectedOrder = new ArrayList<>();
-    private final List<AttemptResult> attempts = new ArrayList<>();
-    private int attemptNumber = 1;
+    @FXML
+    private TableColumn<Result, Integer> attemptColumn;
 
-    public void setCorrectOrder(List<Color> colors) {
-        correctOrder.addAll(colors);
-        initializeColorGrid();
+    @FXML
+    private TableColumn<Result, String> colorsColumn;
+
+    @FXML
+    private TableView<Result> summaryTable;
+
+    @FXML
+    private TableColumn<Result, Integer> summaryAttemptColumn;
+
+    @FXML
+    private TableColumn<Result, String> summaryColorsColumn;
+
+    @FXML
+    private HBox colorBox;
+
+    @FXML
+    private Label statusLabel;
+
+    private List<Result> results = new ArrayList<>();
+    private List<Result> allResults = new ArrayList<>();
+
+    @FXML
+    public void initialize() {
+        attemptColumn.setCellValueFactory(new PropertyValueFactory<>("attempt"));
+        colorsColumn.setCellValueFactory(new PropertyValueFactory<>("colors"));
+        summaryAttemptColumn.setCellValueFactory(new PropertyValueFactory<>("attempt"));
+        summaryColorsColumn.setCellValueFactory(new PropertyValueFactory<>("colors"));
     }
 
-    private void initializeColorGrid() {
-        colorGrid.getChildren().clear(); // Clear any existing children
-        for (int i = 0; i < 6; i++) { // Only display 6 colors
-            Rectangle rectangle = new Rectangle(50, 50, correctOrder.get(i));
-            int row = i / 3;
-            int col = i % 3;
-            StackPane stack = new StackPane();
-            stack.getChildren().add(rectangle);
-            colorGrid.add(stack, col, row);
+    public void setCorrectOrder(List<Color> displayedColors) {
+        int correctCount = calculateCorrectColors(displayedColors);
+        statusLabel.setText("Correct colors: " + correctCount + " out of 10");
 
-            rectangle.setOnMouseClicked(event -> {
-                Color fill = (Color) rectangle.getFill();
-                selectedOrder.add(fill);
-                updateSelectionTable();
-            });
+        results.add(new Result(results.size() + 1, displayedColors.toString()));
+        resultTable.getItems().setAll(results);
+
+        updateSummaryTable();
+    }
+
+    public void setAllResults(List<List<Color>> allResults) {
+        this.allResults.clear();
+        for (int i = 0; i < allResults.size(); i++) {
+            this.allResults.add(new Result(i + 1, allResults.get(i).toString()));
+        }
+        updateSummaryTable();
+    }
+
+    public void showShuffledColors(List<Color> shuffledColors) {
+        colorBox.getChildren().clear();
+        for (Color color : shuffledColors) {
+            Rectangle rectangle = new Rectangle(50, 50, color);
+            colorBox.getChildren().add(rectangle);
         }
     }
 
-    private void updateSelectionTable() {
-        selectionTable.getItems().clear();
-        for (int i = 0; i < selectedOrder.size(); i++) {
-            String selected = colorToString(selectedOrder.get(i));
-            String correct = (i < correctOrder.size()) ? colorToString(correctOrder.get(i)) : "";
-            selectionTable.getItems().add(new ColorResult(String.valueOf(i + 1), selected, correct));
-        }
-        if (selectionTable.getItems().size() > 10) {
-            selectionTable.getItems().remove(10, selectionTable.getItems().size());
-        }
+    private void updateSummaryTable() {
+        summaryTable.getItems().setAll(allResults);
     }
 
-    @FXML
-    private void finishAttempt() {
-        updateSelectionTable();
-        int correctCount = 0;
-        for (int i = 0; i < selectedOrder.size() && i < correctOrder.size(); i++) {
-            if (selectedOrder.get(i).equals(correctOrder.get(i))) {
-                correctCount++;
-            }
-        }
-        if (selectionTable.getItems().size() == 10) {
-            attempts.add(new AttemptResult(String.valueOf(attemptNumber), String.valueOf(correctCount)));
-            attemptNumber++;
-            attemptTable.getItems().setAll(attempts);
-            if (attemptTable.getItems().size() > 5) {
-                attemptTable.getItems().remove(5, attemptTable.getItems().size());
-            }
-            selectedOrder.clear();  // Clear the selectedOrder for a new attempt
-        }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Правильні відповіді: " + correctCount);
-        alert.show();
+    private int calculateCorrectColors(List<Color> displayedColors) {
+        // Implement the logic to calculate the number of correct colors
+        return displayedColors.size(); // Placeholder logic
     }
 
     @FXML
-    private void showResults() {
-        startNewAttempt();
+    private void startNewAttempt() {
+        Stage stage = (Stage) resultTable.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     private void resetAttempts() {
-        attempts.clear();
-        attemptNumber = 1;
-        attemptTable.getItems().clear();
+        results.clear();
+        resultTable.getItems().clear();
+        allResults.clear();
+        summaryTable.getItems().clear();
     }
 
-    private void startNewAttempt() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
-            Scene scene = new Scene(loader.load(), 400, 400);
+    public static class Result {
+        private final int attempt;
+        private final String colors;
 
-            ColorController colorController = loader.getController();
-            colorController.startTest();
-
-            Stage stage = (Stage) colorGrid.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String colorToString(Color color) {
-        if (color.equals(Color.YELLOW)) return "Жовтий";
-        if (color.equals(Color.GREEN)) return "Зелений";
-        if (color.equals(Color.RED)) return "Червоний";
-        if (color.equals(Color.BLUE)) return "Синій";
-        if (color.equals(Color.WHITE)) return "Білий";
-        if (color.equals(Color.BLACK)) return "Чорний";
-        return "Невідомий";
-    }
-
-    public static class ColorResult {
-        private final String index;
-        private final String selectedColor;
-        private final String correctColor;
-
-        public ColorResult(String index, String selectedColor, String correctColor) {
-            this.index = index;
-            this.selectedColor = selectedColor;
-            this.correctColor = correctColor;
+        public Result(int attempt, String colors) {
+            this.attempt = attempt;
+            this.colors = colors;
         }
 
-        public String getIndex() {
-            return index;
+        public int getAttempt() {
+            return attempt;
         }
 
-        public String getSelectedColor() {
-            return selectedColor;
+        public String getColors() {
+            return colors;
         }
-
-        public String getCorrectColor() {
-            return correctColor;
-        }
-    }
-
-    public static class AttemptResult {
-        private final String attemptNumber;
-        private final String correctCount;
-
-        public AttemptResult(String attemptNumber, String correctCount) {
-            this.attemptNumber = attemptNumber;
-            this.correctCount = correctCount;
-        }
-
-        public String getAttemptNumber() {
-            return attemptNumber;
-        }
-
-        public String getCorrectCount() {
-            return correctCount;
-        }
-    }
-
-    @FXML
-    public void initialize() {
-        indexColumn.setCellValueFactory(new PropertyValueFactory<>("index"));
-        selectedColorColumn.setCellValueFactory(new PropertyValueFactory<>("selectedColor"));
-        correctColorColumn.setCellValueFactory(new PropertyValueFactory<>("correctColor"));
-        attemptNumberColumn.setCellValueFactory(new PropertyValueFactory<>("attemptNumber"));
-        correctCountColumn.setCellValueFactory(new PropertyValueFactory<>("correctCount"));
-
-        finishButton.setText("Нова спроба");
-        resetButton.setText("Скинути таблицю");
-        showResultsButton.setText("Показати результати спроби");
     }
 }

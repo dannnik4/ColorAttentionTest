@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -25,19 +26,19 @@ public class ColorController {
     @FXML
     private Rectangle rectangle;
 
+    @FXML
+    private HBox colorBox;
+
     private final List<Color> colors = List.of(
             Color.YELLOW, Color.GREEN, Color.RED, Color.BLUE, Color.WHITE, Color.BLACK
     );
 
     private final List<Color> displayedColors = new ArrayList<>();
+    private final List<List<Color>> allResults = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        if (stackPane == null || rectangle == null) {
-            System.out.println("FXML elements are not initialized");
-        } else {
-            rectangle.setFill(Color.WHITE);
-        }
+        rectangle.setFill(Color.WHITE);
     }
 
     public void startTest() {
@@ -62,6 +63,7 @@ public class ColorController {
     }
 
     private void startColorSequence(List<Color> randomColors) {
+        displayedColors.clear(); // Очистка перед новым тестом
         Timeline timeline = new Timeline();
         for (int i = 0; i < 10; i++) {
             Color color = randomColors.get(i % colors.size());
@@ -75,33 +77,39 @@ public class ColorController {
                 colorIndexText.setStyle("-fx-font-size: 24px;");
                 stackPane.getChildren().clear();
                 stackPane.getChildren().addAll(rectangle, colorIndexText);
+
+                if (colorIndex == 10) {
+                    showResults();
+                }
             });
 
             timeline.getKeyFrames().add(keyFrame);
         }
 
-        timeline.setOnFinished(event -> showResultScreen());
         timeline.play();
     }
 
-    private void showResultScreen() {
+    private void showResults() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("result-view.fxml"));
             Scene scene = new Scene(loader.load(), 600, 600);
 
             ResultController resultController = loader.getController();
             resultController.setCorrectOrder(displayedColors);
+            resultController.setAllResults(allResults);
+
+            List<Color> shuffledColors = new ArrayList<>(colors);
+            Collections.shuffle(shuffledColors);
+            resultController.showShuffledColors(shuffledColors);
 
             Stage stage = (Stage) stackPane.getScene().getWindow();
             stage.setScene(scene);
+
+            allResults.add(new ArrayList<>(displayedColors)); // Сохранение текущего результата
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void showResults() {
-        startTest();
     }
 
     @FXML
@@ -111,6 +119,7 @@ public class ColorController {
 
     @FXML
     private void resetAttempts() {
-        // Implement reset logic here if needed
+        allResults.clear();
+        startTest();
     }
 }

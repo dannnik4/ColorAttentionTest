@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.colorsattentiontest.ResultController"
-      prefWidth="600" prefHeight="600">
+      spacing="10" padding="10">
 
-    <GridPane fx:id="colorGrid" hgap="10" vgap="10"/>
-
-    <TableView fx:id="selectionTable" prefHeight="350">
-        <columns>
-            <TableColumn fx:id="indexColumn" text="№"/>
-            <TableColumn fx:id="selectedColorColumn" text="Обраний колір"/>
-            <TableColumn fx:id="correctColorColumn" text="Правильний колір"/>
-        </columns>
-    </TableView>
-
-    <TableView fx:id="attemptTable" prefHeight="100">
-        <columns>
-            <TableColumn fx:id="attemptNumberColumn" text="№ Спроби"/>
-            <TableColumn fx:id="correctCountColumn" text="Правильні кольори"/>
-        </columns>
-    </TableView>
-
-    <HBox spacing="10">
-        <Button fx:id="finishButton" text="Показати результати спроби" onAction="#showResults"/>
-        <Button fx:id="showResultsButton" text="Нова спроба" onAction="#finishAttempt"/>
-        <Button fx:id="resetButton" text="Скинути таблицю" onAction="#resetAttempts"/>
+    <HBox fx:id="colorBox" spacing="10">
     </HBox>
+
+    <Label fx:id="statusLabel" text="Status message" />
+
+    <TableView fx:id="resultTable">
+        <columns>
+            <TableColumn fx:id="attemptColumn" text="Attempt"/>
+            <TableColumn fx:id="colorsColumn" text="Colors"/>
+        </columns>
+    </TableView>
+
+    <TableView fx:id="summaryTable">
+        <columns>
+            <TableColumn fx:id="summaryAttemptColumn" text="Attempt"/>
+            <TableColumn fx:id="summaryColorsColumn" text="Colors"/>
+        </columns>
+    </TableView>
 </VBox>
