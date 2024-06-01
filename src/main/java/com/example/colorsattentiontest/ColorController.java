@@ -73,7 +73,7 @@ public class ColorController {
             KeyFrame keyFrame = new KeyFrame(Duration.seconds(i + 1), event -> {
                 rectangle.setFill(color);
                 Text colorIndexText = new Text(String.valueOf(colorIndex));
-                colorIndexText.setFill((color.equals(Color.BLACK) || color.equals(Color.BLUE) || color.equals(Color.RED)) ? Color.WHITE : Color.BLACK);
+                colorIndexText.setFill((color.equals(Color.BLACK) || color.equals(Color.BLUE) || color.equals(Color.GREEN) || color.equals(Color.RED)) ? Color.WHITE : Color.BLACK);
                 colorIndexText.setStyle("-fx-font-size: 24px;");
                 stackPane.getChildren().clear();
                 stackPane.getChildren().addAll(rectangle, colorIndexText);
