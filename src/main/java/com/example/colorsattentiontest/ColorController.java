@@ -105,7 +105,7 @@ public class ColorController {
             Stage stage = (Stage) stackPane.getScene().getWindow();
             stage.setScene(scene);
 
-            allResults.add(new ArrayList<>(displayedColors)); // Сохранение текущего результата
+            allResults.add(new ArrayList<>(displayedColors));
 
         } catch (IOException e) {
             e.printStackTrace();

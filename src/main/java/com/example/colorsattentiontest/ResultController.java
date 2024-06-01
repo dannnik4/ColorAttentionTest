@@ -22,16 +22,19 @@ public class ResultController {
     private TableColumn<Result, Integer> attemptColumn;
 
     @FXML
-    private TableColumn<Result, String> colorsColumn;
+    private TableColumn<Result, String> selectedColorColumn;
 
     @FXML
-    private TableView<Result> summaryTable;
+    private TableColumn<Result, String> correctColorColumn;
 
     @FXML
-    private TableColumn<Result, Integer> summaryAttemptColumn;
+    private TableView<Summary> summaryTable;
 
     @FXML
-    private TableColumn<Result, String> summaryColorsColumn;
+    private TableColumn<Summary, Integer> summaryAttemptColumn;
+
+    @FXML
+    private TableColumn<Summary, String> summaryColorsColumn;
 
     @FXML
     private HBox colorBox;
@@ -40,32 +43,64 @@ public class ResultController {
     private Label statusLabel;
 
     private List<Result> results = new ArrayList<>();
-    private List<Result> allResults = new ArrayList<>();
+    private List<Summary> allResults = new ArrayList<>();
+    private List<Color> correctColors;
 
     @FXML
     public void initialize() {
         attemptColumn.setCellValueFactory(new PropertyValueFactory<>("attempt"));
-        colorsColumn.setCellValueFactory(new PropertyValueFactory<>("colors"));
+        selectedColorColumn.setCellValueFactory(new PropertyValueFactory<>("selectedColor"));
+        correctColorColumn.setCellValueFactory(new PropertyValueFactory<>("correctColor"));
         summaryAttemptColumn.setCellValueFactory(new PropertyValueFactory<>("attempt"));
-        summaryColorsColumn.setCellValueFactory(new PropertyValueFactory<>("colors"));
+        summaryColorsColumn.setCellValueFactory(new PropertyValueFactory<>("summary"));
+
+        correctColors = generateCorrectColors(); // Генерация правильных цветов
+    }
+
+    private List<Color> generateCorrectColors() {
+        // Генерация правильных цветов, например, случайных
+        return List.of(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PURPLE, Color.ORANGE);
+    }
+
+    public void addResult(int attempt, Color selectedColor) {
+        String selectedColorName = getColorName(selectedColor);
+        String correctColorName = getColorName(correctColors.get(attempt - 1));
+
+        results.add(new Result(attempt, selectedColorName, correctColorName));
+        resultTable.getItems().setAll(results);
+    }
+
+    private String getColorName(Color color) {
+        if (color.equals(Color.RED)) return "Red";
+        if (color.equals(Color.GREEN)) return "Green";
+        if (color.equals(Color.BLUE)) return "Blue";
+        if (color.equals(Color.YELLOW)) return "Yellow";
+        if (color.equals(Color.PURPLE)) return "Purple";
+        if (color.equals(Color.ORANGE)) return "Orange";
+        return "Unknown";
     }
 
     public void setCorrectOrder(List<Color> displayedColors) {
-        int correctCount = calculateCorrectColors(displayedColors);
-        statusLabel.setText("Correct colors: " + correctCount + " out of 10");
-
-        results.add(new Result(results.size() + 1, displayedColors.toString()));
-        resultTable.getItems().setAll(results);
-
+        for (int i = 0; i < displayedColors.size(); i++) {
+            addResult(i + 1, displayedColors.get(i));
+        }
         updateSummaryTable();
     }
 
-    public void setAllResults(List<List<Color>> allResults) {
-        this.allResults.clear();
-        for (int i = 0; i < allResults.size(); i++) {
-            this.allResults.add(new Result(i + 1, allResults.get(i).toString()));
+    public void updateSummaryTable() {
+        int correctCount = calculateCorrectColors();
+        allResults.add(new Summary(allResults.size() + 1, correctCount + " з 10"));
+        summaryTable.getItems().setAll(allResults);
+    }
+
+    private int calculateCorrectColors() {
+        int correctCount = 0;
+        for (int i = 0; i < results.size(); i++) {
+            if (results.get(i).getSelectedColor().equals(results.get(i).getCorrectColor())) {
+                correctCount++;
+            }
         }
-        updateSummaryTable();
+        return correctCount;
     }
 
     public void showShuffledColors(List<Color> shuffledColors) {
@@ -76,19 +111,13 @@ public class ResultController {
         }
     }
 
-    private void updateSummaryTable() {
-        summaryTable.getItems().setAll(allResults);
-    }
-
-    private int calculateCorrectColors(List<Color> displayedColors) {
-        // Implement the logic to calculate the number of correct colors
-        return displayedColors.size(); // Placeholder logic
-    }
-
     @FXML
     private void startNewAttempt() {
-        Stage stage = (Stage) resultTable.getScene().getWindow();
-        stage.close();
+        if (results.size() == correctColors.size()) {
+            updateSummaryTable();
+        }
+        results.clear();
+        resultTable.getItems().clear();
     }
 
     @FXML
@@ -101,19 +130,43 @@ public class ResultController {
 
     public static class Result {
         private final int attempt;
-        private final String colors;
+        private final String selectedColor;
+        private final String correctColor;
 
-        public Result(int attempt, String colors) {
+        public Result(int attempt, String selectedColor, String correctColor) {
             this.attempt = attempt;
-            this.colors = colors;
+            this.selectedColor = selectedColor;
+            this.correctColor = correctColor;
         }
 
         public int getAttempt() {
             return attempt;
         }
 
-        public String getColors() {
-            return colors;
+        public String getSelectedColor() {
+            return selectedColor;
+        }
+
+        public String getCorrectColor() {
+            return correctColor;
+        }
+    }
+
+    public static class Summary {
+        private final int attempt;
+        private final String summary;
+
+        public Summary(int attempt, String summary) {
+            this.attempt = attempt;
+            this.summary = summary;
+        }
+
+        public int getAttempt() {
+            return attempt;
+        }
+
+        public String getSummary() {
+            return summary;
         }
     }
 }

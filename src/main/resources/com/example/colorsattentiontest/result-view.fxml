@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -19,14 +20,19 @@
     <Label fx:id="statusLabel" text="Status message" />
     <TableView fx:id="resultTable">
         <columns>
-            <TableColumn fx:id="attemptColumn" text="Attempt"/>
-            <TableColumn fx:id="colorsColumn" text="Colors"/>
+            <TableColumn fx:id="attemptColumn" text="№"/>
+            <TableColumn fx:id="selectedColorColumn" text="Обраний колір"/>
+            <TableColumn fx:id="correctColorColumn" text="Правильний колір"/>
         </columns>
     </TableView>
-    <TableView fx:id="summaryTable">
+    <TableView fx:id="summaryTable" maxHeight="125">
         <columns>
             <TableColumn fx:id="summaryAttemptColumn" text="Attempt"/>
             <TableColumn fx:id="summaryColorsColumn" text="Colors"/>
         </columns>
     </TableView>
+    <HBox spacing="10">
+        <Button text="Нова спроба" onAction="#startNewAttempt"/>
+        <Button text="Обнулити спроби" onAction="#resetAttempts"/>
+    </HBox>
 </VBox>
