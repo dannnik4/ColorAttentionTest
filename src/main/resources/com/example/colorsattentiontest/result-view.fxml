@@ -30,8 +30,8 @@
     </TableView>
 
     <HBox spacing="10">
-        <Button fx:id="finishButton" text="Показати результати спроби" onAction="#showResults"/>
-        <Button fx:id="showResultsButton" text="Нова спроба" onAction="#finishAttempt"/>
-        <Button fx:id="resetButton" text="Скинути таблицю" onAction="#resetAttempts"/>
+        <Button fx:id="finishButton" text="Закончить попытку" onAction="#finishAttempt"/>
+        <Button fx:id="showResultsButton" text="Новая попытка" onAction="#startNewAttempt"/>
+        <Button fx:id="resetButton" text="Сбросить" onAction="#resetAttempts"/>
     </HBox>
 </VBox>

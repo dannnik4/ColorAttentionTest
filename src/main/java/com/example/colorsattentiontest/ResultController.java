@@ -49,14 +49,24 @@ public class ResultController {
     private int attemptNumber = 1;
 
     public void setCorrectOrder(List<Color> colors) {
+        correctOrder.clear();
         correctOrder.addAll(colors);
         initializeColorGrid();
     }
 
     private void initializeColorGrid() {
-        colorGrid.getChildren().clear(); // Clear any existing children
-        for (int i = 0; i < 6; i++) { // Only display 6 colors
-            Rectangle rectangle = new Rectangle(50, 50, correctOrder.get(i));
+        List<Color> fixedOrder = List.of(
+                Color.GREEN,
+                Color.YELLOW,
+                Color.RED,
+                Color.BLUE,
+                Color.WHITE,
+                Color.BLACK
+        );
+
+        colorGrid.getChildren().clear(); // Очистить существующих детей
+        for (int i = 0; i < fixedOrder.size(); i++) { // Отображать фиксированный порядок цветов
+            Rectangle rectangle = new Rectangle(50, 50, fixedOrder.get(i));
             int row = i / 3;
             int col = i % 3;
             StackPane stack = new StackPane();
@@ -92,22 +102,21 @@ public class ResultController {
                 correctCount++;
             }
         }
-        if (selectionTable.getItems().size() == 10) {
-            attempts.add(new AttemptResult(String.valueOf(attemptNumber), String.valueOf(correctCount)));
-            attemptNumber++;
-            attemptTable.getItems().setAll(attempts);
-            if (attemptTable.getItems().size() > 5) {
-                attemptTable.getItems().remove(5, attemptTable.getItems().size());
-            }
-            selectedOrder.clear();  // Clear the selectedOrder for a new attempt
+        attempts.add(new AttemptResult(String.valueOf(attemptNumber), String.valueOf(correctCount)));
+        attemptNumber++;
+        attemptTable.getItems().setAll(attempts);
+        if (attemptTable.getItems().size() > 5) {
+            attemptTable.getItems().remove(5, attemptTable.getItems().size());
         }
+        selectedOrder.clear();  // Очистить selectedOrder для новой попытки
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Правильні відповіді: " + correctCount);
         alert.show();
     }
 
     @FXML
     private void showResults() {
-        startNewAttempt();
+        finishAttempt();
     }
 
     @FXML
@@ -117,6 +126,7 @@ public class ResultController {
         attemptTable.getItems().clear();
     }
 
+    @FXML
     private void startNewAttempt() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
@@ -192,8 +202,8 @@ public class ResultController {
         attemptNumberColumn.setCellValueFactory(new PropertyValueFactory<>("attemptNumber"));
         correctCountColumn.setCellValueFactory(new PropertyValueFactory<>("correctCount"));
 
-        finishButton.setText("Нова спроба");
-        resetButton.setText("Скинути таблицю");
-        showResultsButton.setText("Показати результати спроби");
+        finishButton.setText("Закончить попытку");
+        resetButton.setText("Сбросить");
+        showResultsButton.setText("Новая попытка");
     }
 }
