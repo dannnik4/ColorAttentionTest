@@ -19,6 +19,8 @@ import java.util.List;
 
 public class ColorController {
 
+    private ResultController resultController;
+
     @FXML
     private StackPane stackPane;
 
@@ -99,17 +101,15 @@ public class ColorController {
         }
     }
 
-    @FXML
-    private void showResults() {
-        startTest();
+    public void setResultController(ResultController resultController) {
+        this.resultController = resultController;
     }
 
     @FXML
-    private void finishAttempt() {
-        startTest();
-    }
+    private void finishTest() {
+        // Do test completion logic
 
-    @FXML
-    private void resetAttempts() {
+        // Notify the result controller to load saved attempts
+        resultController.loadSavedAttempts();
     }
 }

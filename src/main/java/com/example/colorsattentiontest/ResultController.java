@@ -47,6 +47,7 @@ public class ResultController {
     private final List<Color> correctOrder = new ArrayList<>();
     private final List<Color> selectedOrder = new ArrayList<>();
     private final List<AttemptResult> attempts = new ArrayList<>();
+    private List<AttemptResult> savedAttempts = new ArrayList<>();
     private int attemptNumber = 1;
 
     public void setCorrectOrder(List<Color> colors) {
@@ -86,8 +87,8 @@ public class ResultController {
                 Color.BLACK
         );
 
-        colorGrid.getChildren().clear(); // Очистить существующих детей
-        for (int i = 0; i < fixedOrder.size(); i++) { // Отображать фиксированный порядок цветов
+        colorGrid.getChildren().clear();
+        for (int i = 0; i < fixedOrder.size(); i++) {
             Rectangle rectangle = new Rectangle(50, 50, fixedOrder.get(i));
             int row = i / 3;
             int col = i % 3;
@@ -133,7 +134,7 @@ public class ResultController {
         if (attemptTable.getItems().size() > 5) {
             attemptTable.getItems().remove(5, attemptTable.getItems().size());
         }
-        selectedOrder.clear();  // Очистить selectedOrder для новой попытки
+        selectedOrder.clear();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Правильні відповіді: " + correctCount);
         alert.show();
@@ -141,11 +142,15 @@ public class ResultController {
 
     @FXML
     private void startNewAttempt() {
+        // Save current attempt data
+        savedAttempts = new ArrayList<>(attempts);
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
             Scene scene = new Scene(loader.load(), 400, 400);
 
             ColorController colorController = loader.getController();
+            colorController.setResultController(this);
             colorController.startTest();
 
             Stage stage = (Stage) colorGrid.getScene().getWindow();
@@ -158,8 +163,16 @@ public class ResultController {
     @FXML
     private void resetAttempts() {
         attempts.clear();
+        savedAttempts.clear();
         attemptNumber = 1;
         attemptTable.getItems().clear();
+    }
+
+    public void loadSavedAttempts() {
+        attempts.clear();
+        attempts.addAll(savedAttempts);
+        attemptTable.getItems().setAll(attempts);
+        attemptNumber = attempts.size() + 1;
     }
 
     private String colorToString(Color color) {
