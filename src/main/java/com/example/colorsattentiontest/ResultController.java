@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ResultController {
@@ -54,6 +55,27 @@ public class ResultController {
         initializeColorGrid();
     }
 
+    public void setAllResults(List<List<Color>> previousAttempts) {
+        for (List<Color> attempt : previousAttempts) {
+            int correctCount = 0;
+            for (int i = 0; i < attempt.size() && i < correctOrder.size(); i++) {
+                if (attempt.get(i).equals(correctOrder.get(i))) {
+                    correctCount++;
+                }
+            }
+            attempts.add(new AttemptResult(String.valueOf(attemptNumber), String.valueOf(correctCount)));
+            attemptNumber++;
+        }
+        attemptTable.getItems().setAll(attempts);
+    }
+
+    public void showShuffledColors(List<Color> colors) {
+        correctOrder.clear();
+        correctOrder.addAll(colors);
+        Collections.shuffle(correctOrder);
+        initializeColorGrid();
+    }
+
     private void initializeColorGrid() {
         List<Color> fixedOrder = List.of(
                 Color.GREEN,
@@ -77,6 +99,9 @@ public class ResultController {
                 Color fill = (Color) rectangle.getFill();
                 selectedOrder.add(fill);
                 updateSelectionTable();
+                if (selectedOrder.size() == 10) {
+                    finishAttempt();
+                }
             });
         }
     }
@@ -115,18 +140,6 @@ public class ResultController {
     }
 
     @FXML
-    private void showResults() {
-        finishAttempt();
-    }
-
-    @FXML
-    private void resetAttempts() {
-        attempts.clear();
-        attemptNumber = 1;
-        attemptTable.getItems().clear();
-    }
-
-    @FXML
     private void startNewAttempt() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
@@ -140,6 +153,13 @@ public class ResultController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void resetAttempts() {
+        attempts.clear();
+        attemptNumber = 1;
+        attemptTable.getItems().clear();
     }
 
     private String colorToString(Color color) {
@@ -202,8 +222,8 @@ public class ResultController {
         attemptNumberColumn.setCellValueFactory(new PropertyValueFactory<>("attemptNumber"));
         correctCountColumn.setCellValueFactory(new PropertyValueFactory<>("correctCount"));
 
-        finishButton.setText("Закончить попытку");
-        resetButton.setText("Сбросить");
-        showResultsButton.setText("Новая попытка");
+        finishButton.setText("Завершити спробу");
+        resetButton.setText("Скинути");
+        showResultsButton.setText("Нова спроба");
     }
 }
