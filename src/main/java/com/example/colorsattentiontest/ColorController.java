@@ -16,8 +16,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 
 public class ColorController {
+
+    @FXML
+    private GridPane colorGrid;
+    @FXML
+    private Button finishButton;
 
     private ResultController resultController;
 

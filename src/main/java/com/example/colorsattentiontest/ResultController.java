@@ -142,8 +142,9 @@ public class ResultController {
 
     @FXML
     private void startNewAttempt() {
-        // Save current attempt data
-        savedAttempts = new ArrayList<>(attempts);
+        // Сохраняем текущие попытки перед началом новой попытки
+        savedAttempts.clear();
+        savedAttempts.addAll(attempts);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
@@ -155,6 +156,9 @@ public class ResultController {
 
             Stage stage = (Stage) colorGrid.getScene().getWindow();
             stage.setScene(scene);
+
+            // Загружаем сохраненные попытки после установки новой сцены
+            loadSavedAttempts();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -163,7 +167,6 @@ public class ResultController {
     @FXML
     private void resetAttempts() {
         attempts.clear();
-        savedAttempts.clear();
         attemptNumber = 1;
         attemptTable.getItems().clear();
     }
@@ -173,6 +176,10 @@ public class ResultController {
         attempts.addAll(savedAttempts);
         attemptTable.getItems().setAll(attempts);
         attemptNumber = attempts.size() + 1;
+    }
+
+    public List<AttemptResult> getAttempts() {
+        return new ArrayList<>(attempts);
     }
 
     private String colorToString(Color color) {
@@ -238,5 +245,7 @@ public class ResultController {
         finishButton.setText("Завершити спробу");
         resetButton.setText("Скинути");
         showResultsButton.setText("Нова спроба");
+
+        showResultsButton.setOnAction(event -> startNewAttempt());
     }
 }
