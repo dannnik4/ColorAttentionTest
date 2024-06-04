@@ -47,7 +47,6 @@ public class ResultController {
     private final List<Color> correctOrder = new ArrayList<>();
     private final List<Color> selectedOrder = new ArrayList<>();
     private final List<AttemptResult> attempts = new ArrayList<>();
-    private List<AttemptResult> savedAttempts = new ArrayList<>();
     private int attemptNumber = 1;
 
     public void setCorrectOrder(List<Color> colors) {
@@ -138,13 +137,15 @@ public class ResultController {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Правильні відповіді: " + correctCount);
         alert.show();
+
+        // Показываем таблицу с результатами
+        attemptTable.setVisible(true);
     }
 
     @FXML
     private void startNewAttempt() {
-        // Сохраняем текущие попытки перед началом новой попытки
-        savedAttempts.clear();
-        savedAttempts.addAll(attempts);
+        // Скрываем таблицу с результатами перед началом новой попытки
+        attemptTable.setVisible(false);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
@@ -156,9 +157,6 @@ public class ResultController {
 
             Stage stage = (Stage) colorGrid.getScene().getWindow();
             stage.setScene(scene);
-
-            // Загружаем сохраненные попытки после установки новой сцены
-            loadSavedAttempts();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -169,17 +167,6 @@ public class ResultController {
         attempts.clear();
         attemptNumber = 1;
         attemptTable.getItems().clear();
-    }
-
-    public void loadSavedAttempts() {
-        attempts.clear();
-        attempts.addAll(savedAttempts);
-        attemptTable.getItems().setAll(attempts);
-        attemptNumber = attempts.size() + 1;
-    }
-
-    public List<AttemptResult> getAttempts() {
-        return new ArrayList<>(attempts);
     }
 
     private String colorToString(Color color) {

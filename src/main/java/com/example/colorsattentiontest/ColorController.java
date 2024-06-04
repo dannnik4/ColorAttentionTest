@@ -40,6 +40,7 @@ public class ColorController {
     );
 
     private final List<Color> displayedColors = new ArrayList<>();
+    private List<ResultController.AttemptResult> savedAttempts = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -113,11 +114,11 @@ public class ColorController {
         this.resultController = resultController;
     }
 
+    public void setSavedAttempts(List<ResultController.AttemptResult> savedAttempts) {
+        this.savedAttempts = savedAttempts;
+    }
+
     @FXML
     private void finishTest() {
-        // Do test completion logic
-
-        // Notify the result controller to load saved attempts
-        resultController.loadSavedAttempts();
     }
 }
