@@ -144,7 +144,6 @@ public class ResultController {
 
     @FXML
     private void startNewAttempt() {
-        // Скрываем таблицу с результатами перед началом новой попытки
         attemptTable.setVisible(false);
 
         try {
