@@ -55,6 +55,13 @@ public class ResultController {
         initializeColorGrid();
     }
 
+    public void setSavedAttempts(List<AttemptResult> savedAttempts) {
+        attempts.clear();
+        attempts.addAll(savedAttempts);
+        attemptNumber = attempts.size() + 1;
+        attemptTable.getItems().setAll(attempts);
+    }
+
     public void setAllResults(List<List<Color>> previousAttempts) {
         for (List<Color> attempt : previousAttempts) {
             int correctCount = 0;
@@ -145,13 +152,14 @@ public class ResultController {
     @FXML
     private void startNewAttempt() {
         attemptTable.setVisible(false);
-
+        selectedOrder.clear();  // очищаем список выбранных цветов для новой попытки
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("color-view.fxml"));
             Scene scene = new Scene(loader.load(), 400, 400);
 
             ColorController colorController = loader.getController();
             colorController.setResultController(this);
+            colorController.setSavedAttempts(new ArrayList<>(attempts));  // передаем текущие попытки
             colorController.startTest();
 
             Stage stage = (Stage) colorGrid.getScene().getWindow();

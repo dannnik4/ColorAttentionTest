@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
@@ -102,6 +101,9 @@ public class ColorController {
 
             ResultController resultController = loader.getController();
             resultController.setCorrectOrder(displayedColors);
+
+            // Передаем сохраненные попытки в ResultController
+            resultController.setSavedAttempts(savedAttempts);
 
             Stage stage = (Stage) stackPane.getScene().getWindow();
             stage.setScene(scene);
