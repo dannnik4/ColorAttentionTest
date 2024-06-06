@@ -25,7 +25,7 @@
     <TableView fx:id="attemptTable" prefHeight="100">
         <columns>
             <TableColumn fx:id="attemptNumberColumn" text="№ Спроби"/>
-            <TableColumn fx:id="correctCountColumn" text="Правильні кольори"/>
+            <TableColumn fx:id="correctCountColumn" text="Правильні відповіді"/>
         </columns>
     </TableView>
 
