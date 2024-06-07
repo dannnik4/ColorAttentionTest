@@ -102,7 +102,6 @@ public class ColorController {
             ResultController resultController = loader.getController();
             resultController.setCorrectOrder(displayedColors);
 
-            // Передаем сохраненные попытки в ResultController
             resultController.setSavedAttempts(savedAttempts);
 
             Stage stage = (Stage) stackPane.getScene().getWindow();
