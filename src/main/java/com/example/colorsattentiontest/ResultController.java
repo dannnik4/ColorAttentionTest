@@ -145,7 +145,6 @@ public class ResultController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Правильні відповіді: " + correctCount);
         alert.show();
 
-        // Показываем таблицу с результатами
         attemptTable.setVisible(true);
     }
 
